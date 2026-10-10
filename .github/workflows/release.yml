@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish Linux release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test
+      - run: cargo build --locked --release
+      - run: mkdir -p dist/terminal-time-machine-x86_64-unknown-linux-gnu
+      - run: cp target/release/tt LICENSE README.md dist/terminal-time-machine-x86_64-unknown-linux-gnu/
+      - run: tar -C dist -czf dist/terminal-time-machine-x86_64-unknown-linux-gnu.tar.gz terminal-time-machine-x86_64-unknown-linux-gnu
+      - run: sha256sum dist/terminal-time-machine-x86_64-unknown-linux-gnu.tar.gz > dist/SHA256SUMS
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/terminal-time-machine-x86_64-unknown-linux-gnu.tar.gz
+            dist/SHA256SUMS

@@ -1,0 +1,17 @@
+[package]
+name = "terminal-time-machine"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+description = "A small, safe directory snapshot CLI for Linux"
+license = "MIT"
+keywords = ["backup", "snapshot", "cli", "linux"]
+categories = ["command-line-utilities", "filesystem"]
+readme = "README.md"
+exclude = [".github/", ".gitignore"]
+
+[dependencies]
+
+[[bin]]
+name = "tt"
+path = "src/main.rs"
