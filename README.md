@@ -42,7 +42,7 @@ It stores every file by its SHA-256 hash. The second snapshot only writes conten
 Requirements: Linux and Rust 1.99 or later.
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/yxzroot/terminal-time-machine.git
 cd terminal-time-machine
 cargo install --path .
 ```
